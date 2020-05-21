@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>HOMEPAGE</h1>
+    <b>Username: </b>{{ request.user.username }} <br />
+    <b>Display Name: </b>{{ request.user.display_name }} <br />
+    <b>Value of `settings.AUTH_USER_MODEL`: </b>{{ content }} <br />
+    <a href="/logout/">Logout</a>
+
+
+{% endblock %} 
