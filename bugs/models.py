@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.urls import reverse
 
 from django.contrib.auth.models import AbstractUser
 
@@ -23,17 +24,17 @@ class Ticket(models.Model):
     title = models.CharField(
         max_length=200
     )
-    time_of_origin = models.DateTimeField(
+    reported_date = models.DateTimeField(
         default=datetime.now
     )
-    time_of_completion = models.DateTimeField(
+    completed_date = models.DateTimeField(
         null=True,
         blank=True
     )
     description = models.TextField()
     reported_by = models.ForeignKey(
         MyUser,
-        related_name="reporter", 
+        related_name="reported_by", 
         on_delete=models.SET("Deleted user"))
     status = models.CharField(
         max_length = 1,
@@ -43,12 +44,22 @@ class Ticket(models.Model):
         MyUser,
         related_name="owner",
         null=True,
+        blank=True,
         on_delete=models.SET_NULL)
     completed_by = models.ForeignKey(
         MyUser,
         related_name="completed_by", 
         null=True,
+        blank=True,
         on_delete=models.SET("Deleted user"))
+    slug = models.SlugField(
+        null=True,
+        blank=True
+    )
     
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("ticket_detail", kwargs={"slug": self.slug})
+    

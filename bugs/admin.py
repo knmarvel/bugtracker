@@ -13,5 +13,11 @@ class MyUserAdmin(UserAdmin):
         (None, {'fields': ('username', 'display_name')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
     )
+
+
+class TicketAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+
+
 admin.site.register(MyUser, MyUserAdmin)
-admin.site.register(Ticket)
+admin.site.register(Ticket, TicketAdmin)

@@ -35,3 +35,5 @@ class SubmitTicket(forms.Form):
     description = forms.CharField(
         widget=forms.Textarea
     )
+
+

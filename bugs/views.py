@@ -4,12 +4,13 @@ from bugtracker.settings import AUTH_USER_MODEL
 from bugs.forms import AddCustomUser, LoginForm, SubmitTicket
 from bugs.models import MyUser, Ticket
 
-
+# order by method found at https://stackoverflow.com/questions/2272370/sortable-table-columns-in-django/2272420#2272420
 def index(request):
     html = "index.html"
-    all_tickets = Tickets.objects.get()
+    order_by = request.GET.get('order_by', 'title')
+    tickets = Ticket.objects.all().order_by(order_by)
     if request.user.is_authenticated:
-        return render(request, html, {"all_tickets": all_tickets})
+        return render(request, html, {"tickets": tickets, "order_by": order_by})
     return redirect("/login/")
 
 
@@ -80,4 +81,11 @@ def submit_ticket_view(request):
     if request.user.is_authenticated:
         form = SubmitTicket()
         return render(request, "submit_ticket_form.html", {"form": form})
+    return redirect("/login/")
+
+
+def ticket_detail(request, slug):
+    ticket = Ticket.objects.get(slug=slug)
+    if request.user.is_authenticated:
+        return render(request, "ticket_detail.html", {"ticket": ticket})
     return redirect("/login/")
