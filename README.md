@@ -1,0 +1,2 @@
+# bugtracker
+Django bugtracker app
