@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>LOGIN FORM</h1>
-<h2>You must log in to access this site.</h2>
+<h1>Submit Ticket</h1>
+
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit!">
 </form action>
-
-
-
 {% endblock %} 

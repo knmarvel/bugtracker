@@ -1,8 +1,17 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from bugs.models import MyUser
+from bugs.models import MyUser, Ticket
 
 
-# Register your models here.
-admin.site.register(MyUser, UserAdmin)
+# help in this section is from janell.huyck and 
+# https://testdriven.io/blog/django-custom-user-model/
+class MyUserAdmin(UserAdmin):
+    list_display = ('username', 'display_name', 'is_staff', 'is_active',)
+    list_filter = ('username', 'display_name', 'is_staff', 'is_active',)
+    fieldsets = (
+        (None, {'fields': ('username', 'display_name')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+    )
+admin.site.register(MyUser, MyUserAdmin)
+admin.site.register(Ticket)

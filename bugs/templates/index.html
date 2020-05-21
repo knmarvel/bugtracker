@@ -1,10 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>HOMEPAGE</h1>
-    <b>Username: </b>{{ request.user.username }} <br />
-    <b>Display Name: </b>{{ request.user.display_name }} <br />
-    <b>Value of `settings.AUTH_USER_MODEL`: </b>{{ content }} <br />
-    <a href="/logout/">Logout</a>
+    <div class="user-info"><h2>Logged In User Information</h2>
+        <b>Username: </b>{{ request.user.username }} <br />
+        <b>Display Name: </b>{{ request.user.display_name }} <br />
+        <a href="/logout/">Logout</a>
+    </div>
+
+{% if request.user.is_staff %}
+    <div class="adduser">
+        <a href="/adduser/">Add User</a>
+    </div>
+{% endif %}
+
+{% if content %}
+<div class="messages">
+    <h3>Here's the message from the previous page</h3>
+    <p>{{ content }}</p>
+ </div>
+ {% endif %}
+
+{% if all_tickets %}
+<div class="tickets">
+    <h3>All Tickets</h3>
+    {% for ticket in all_tickets %}
+    <h4>{{ ticket.name }}</h4>
+    <b>Reported by: </b>{{ ticket.reported_by}}
+    <b>Time of origin: </b> {{ ticket.time_of_origin }}
+    {% endfor %}
+</div>
+{% endif %}
 
 
 {% endblock %} 

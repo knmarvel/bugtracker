@@ -27,3 +27,11 @@ class AddCustomUser(forms.Form):
         max_length=150
         )
     email = forms.EmailField()
+
+class SubmitTicket(forms.Form):
+    title = forms.CharField(
+        max_length=200
+    )
+    description = forms.CharField(
+        widget=forms.Textarea
+    )
