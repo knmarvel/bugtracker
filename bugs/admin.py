@@ -16,6 +16,7 @@ class MyUserAdmin(UserAdmin):
 
 
 class TicketAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug')
     prepopulated_fields = {"slug": ("title",)}
 
 

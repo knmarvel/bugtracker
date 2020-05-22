@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 from django.contrib.auth.models import AbstractUser
 
@@ -16,10 +17,10 @@ class MyUser(AbstractUser):
 
 class Ticket(models.Model):
     TICKET_STATUSES = [
-        ('N', 'New'),
-        ('P', 'In Progress'),
-        ('D', 'Done'),
-        ('I', 'Invalid')
+        ('New', 'New'),
+        ('In Process', 'In Process'),
+        ('Done', 'Done'),
+        ('Invalid', 'Invalid')
     ]
     title = models.CharField(
         max_length=200
@@ -37,7 +38,7 @@ class Ticket(models.Model):
         related_name="reported_by", 
         on_delete=models.SET("Deleted user"))
     status = models.CharField(
-        max_length = 1,
+        max_length = 10,
         choices=TICKET_STATUSES
     )
     assigned_to = models.ForeignKey(
@@ -53,8 +54,8 @@ class Ticket(models.Model):
         blank=True,
         on_delete=models.SET("Deleted user"))
     slug = models.SlugField(
-        null=True,
-        blank=True
+        null=False,
+        unique=True,
     )
     
     def __str__(self):
@@ -62,4 +63,9 @@ class Ticket(models.Model):
 
     def get_absolute_url(self):
         return reverse("ticket_detail", kwargs={"slug": self.slug})
+    
+    def save(self, *args, **kwargs): # new
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
     

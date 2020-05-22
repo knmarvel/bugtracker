@@ -6,12 +6,7 @@
         <b>Display Name: </b>{{ request.user.display_name }} <br />
         <a href="/logout/">Logout</a>
     </div>
-
-{% if request.user.is_staff %}
-    <div class="adduser">
-        <a href="/adduser/">Add User</a>
-    </div>
-{% endif %}
+<br />
 
 {% if content %}
 <div class="messages">
@@ -21,56 +16,68 @@
  {% endif %}
 <a href="/submitticket/">Submit Ticket</a>
 
-{% if tickets %}
 <div class="tickets">
-    <h3>All Tickets</h3>
-    {{ order_by }}
+    <a href="/">All Tickets</a> | <a href="?filter_by=New">New Tickets</a> | <a href="?filter_by=In Process">In Process Tickets</a>| <a href="?filter_by=Done">Done Tickets</a>
     <table class="ticket-table">
         <tr class="ticket-header ticket-row">
             <th class="ticket-title">
-                {% if order_by != "title" %}
+                {% if "title" not in order_by%}
+                    <a href="?order_by=title">Title</a>
+                {% elif order_by != "title" %}
                     <a href="?order_by=title">Title &#9650;</a>
                 {% else %}
                     <a href="?order_by=-title">Title &#9660;</a>
                 {% endif %}
             </th>
             <th class="ticket-status">
-                {% if order_by != "status" %}
+                {% if "status" not in order_by %}
+                    <a href="?order_by=status">Status</a>
+                {% elif order_by != "status" %}
                     <a href="?order_by=status">Status &#9650;</a>
                 {% else %}
                     <a href="?order_by=-status">Status &#9660;</a>
                 {% endif %}
             </th>
             <th class="ticket-reported-by">
-                {% if order_by != "reported_by" %}
+                {% if "reported_by" not in order_by %}
+                    <a href="?order_by=reported_by">Reported By</a>
+                {% elif order_by != "reported_by" %}
                     <a href="?order_by=reported_by">Reported By &#9650;</a>
                 {% else %}
                     <a href="?order_by=-reported_by">Reported By &#9660;</a>
                 {% endif %}
             </th>
             <th class="ticket-reported_date">
-                {% if order_by != "reported_date" %}
+                {% if "reported_date" not in order_by %}
+                    <a href="?order_by=reported_date">Reported Date</a>
+                {% elif order_by != "reported_date" %}
                     <a href="?order_by=reported_date">Date Reported &#9650;</a>
                 {% else %}
                     <a href="?order_by=-reported_date">Date Reported &#9660;</a>
                 {% endif %}
             </th>
             <th class="ticket-assigned_to">
-                {% if order_by != "assigned_to" %}
+                {% if "assigned_to" not in order_by %}
+                    <a href="?order_by=assigned_to">Assigned To</a>
+                {% elif order_by != "assigned_to" %}
                     <a href="?order_by=assigned_to">Assigned To &#9650;</a>
                 {% else %}
                     <a href="?order_by=-assigned_to">Assigned To &#9660;</a>
                 {% endif %}
             </th>
             <th class="ticket-completed_by">
-                {% if order_by != "completed_by" %}
+                {% if "completed_by" not in order_by %}
+                    <a href="?order_by=completed_by">Completed By</a>
+                {% elif order_by != "completed_by" %}
                     <a href="?order_by=completed_by">Completed By &#9650;</a>
                 {% else %}
                     <a href="?order_by=completed_by">Completed By &#9660;</a>
                 {% endif %}
             </th>
             <th class="ticket-completed_date">
-                {% if order_by != "completed_date" %}
+                {% if "completed_date" not in order_by %}
+                    <a href="?order_by=completed_date">Completed Date</a>
+                {% elif order_by != "completed_date" %}
                     <a href="?order_by=completed_date">Date Completed &#9650;</a>
                 {% else %}
                     <a href="?order_by=-completed_date">Date Completed &#9660;</a>
@@ -90,7 +97,19 @@
         {% endfor %}
     </table>
 </div>
-{% endif %} 
+
+<div class="users">
+
+    <h3>Users</h3>
+    {% if request.user.is_staff %}
+    <div class="adduser">
+        <a href="/adduser/">Add User</a>
+    </div>
+{% endif %}
+    {% for user in users %}
+        <a href={% url 'user_detail' pk=user.pk %}>{{user.display_name}}</a> <br/>
+    {% endfor %}
+</div>
 
 
 {% endblock %} 
