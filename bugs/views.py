@@ -127,8 +127,9 @@ def edit_ticket(request, slug):
                 return HttpResponseRedirect(
                             request.GET.get('next', reverse('homepage'))
                         )
-        form = SubmitTicket()
-        return render(request, "submit_ticket_form.html", {"form": form})
+        old_ticket = Ticket.objects.get(slug=slug)
+        form = SubmitTicket(initial={"title":old_ticket.title, "description":old_ticket.description})
+        return render(request, "edit_ticket_form.html", {"form": form})
     return redirect("/login/")
 
 
