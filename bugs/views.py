@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
+from django.template.defaultfilters import slugify
 from bugtracker.settings import AUTH_USER_MODEL
 from bugs.forms import AddCustomUser, LoginForm, SubmitTicket
 from bugs.models import MyUser, Ticket
@@ -123,6 +124,7 @@ def edit_ticket(request, slug):
                 ticket = Ticket.objects.get(slug=slug)
                 ticket.title = data['title']
                 ticket.description = data['description']
+                ticket.slug = slugify(ticket.title)
                 ticket.save()
                 return HttpResponseRedirect(
                             request.GET.get('next', reverse('homepage'))

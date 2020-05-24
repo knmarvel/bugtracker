@@ -64,7 +64,7 @@ class Ticket(models.Model):
     def get_absolute_url(self):
         return reverse("ticket_detail", kwargs={"slug": self.slug})
     
-    def save(self, *args, **kwargs): # new
+    def save(self, *args, **kwargs): 
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
