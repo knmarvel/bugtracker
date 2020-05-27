@@ -1,0 +1,27 @@
+{% load static %}
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <title>Bug Trackers</title>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="link-back-home">
+        <h1 class="page-title">
+          Bug Trackers
+        </h1>
+      </a>
+    </header>
+    <div class="page-content">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <hr />
+    <p class="footer">
+      Kano Marvel, 2020
+      <br />
+      Find me on <a href="https://github.com/knmarvel">Github</a>
+      <br />
+    </p>
+  </body>
+</html>
